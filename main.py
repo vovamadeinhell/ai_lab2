@@ -165,8 +165,6 @@ def read_initial_facts():
 
 def run_expert_system():
     rules = load_rules()
-    facts = read_initial_facts()
-    print_facts(facts)
     goals = list(dict.fromkeys(r.conclusion for r in rules
                                if r.conclusion[0] == GOAL))
     print("\nДоступные диагнозы:")
@@ -185,6 +183,8 @@ def run_expert_system():
             break
         except ValueError as error:
             print(f"Ошибка: {error}")
+    facts = read_initial_facts()
+    print_facts(facts)
     interactive = input("Запрашивать недостающие факты? (да/нет): ").strip() == "да"
     result, memory, trace = backward_chain(
         rules, facts, goal, ask_fact if interactive else None)
